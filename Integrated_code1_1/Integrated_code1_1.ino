@@ -6,6 +6,7 @@ const byte ledPin = 8;        // LED PIN
 const byte interruptPin = 7;  // HALL EFFECT SENSOR PIN
 const int relayPin = 9;
 volatile byte state = HIGH;
+int buzzerPin = 6;
 
 
 float sensorData[2];  // Array to store oxygen purity and flow rate
@@ -42,6 +43,7 @@ void setup() {
   lcd.init();                                        // Initialize the LCD display
   lcd.backlight();                                   // Turn on the backlight
 
+  pinMode(buzzerPin, OUTPUT);
   // Rotary Stepper motor
   motor.setSpeed(8);
   digitalWrite(ledPin, state);                       //Led has the declared state value
@@ -171,10 +173,7 @@ void displaydata() {
 
     // Buzzer on when purity is less than 30
     if (sensorData[0] < 30) {                    // check if the O2 purity value is less than 30
-    digitalWrite(6, HIGH);                       // sound the buzzer at 880Hz for 1 second
-    }
-    else {
-      digitalWrite(6, LOW);
+    tone(buzzerPin, 800, 0);                       // sound the buzzer at 880Hz 
     }
 
     // print flowrate to lcd
